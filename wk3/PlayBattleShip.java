@@ -70,6 +70,7 @@ public class PlayBattleShip {
         }
     }
     
+    //assign player an empty grid
     public void setPlayerInitGrid(Player player) {
         //grab a new game grid for the player
         String[][] playerGameGrid = this.getGameGrid().getGrid();
@@ -77,26 +78,26 @@ public class PlayBattleShip {
     }
     
     //prompt player for coordinates and ship layout
-    public void playerShipCoordinates(Player player) {
+    public void playerShipCoordinates(Player player) throws InterruptedException, ClassNotFoundException {
         Scanner scan = new Scanner(System.in);
         int row = 0;
         int col = 0;
         char alignment = ' ';
         
-        if(!beenPrompted){
-            System.out.println(player.getPlayerName() + " You must choose your ship's coordinates. Coordinates are reflected by row and column position.\n"+
+        /*if(!beenPrompted){
+            main.printMessage(player.getPlayerName() + " You must choose your ship's coordinates. Coordinates are reflected by row and column position.\n"+
                 "You will be prompted to enter coordinates for your ship's row position, column position and whether you want\n"+
                 "the ship to be aligned vertically or horizontally.\n\n"+
                 "When prompted, enter a number from 1 up to 15 for the row and column positions and an H or a V for vertical or\n"+
                 "horizontal alignment.\n\n");
             beenPrompted = true;
-        }
+        }*/
         
         try {
-            System.out.println(player.getPlayerName() + " Enter a number from 1 to 15 for row position...\n");
+            main.printMessage(player.getPlayerName() + " Enter a number from 1 to 15 for row position...\n\n");
             row = scan.nextInt();
             
-            System.out.println(player.getPlayerName() + " Enter a number from 1 to 15 for column position...\n");
+            main.printMessage(player.getPlayerName() + " Enter a number from 1 to 15 for column position...\n\n");
             col = scan.nextInt();
             
             //checking input
@@ -104,23 +105,23 @@ public class PlayBattleShip {
                 playerShipCoordinates(player);
             }
         } catch(Exception e) {
-            System.out.println(player.getPlayerName() + " You must enter a number from 1 to 15. Restart the process...\n");
+            main.printMessage(player.getPlayerName() + " You must enter a number from 1 to 15. Restart the process...\n\n");
             playerShipCoordinates(player);
         } finally {
         }
         
         try{
             scan = new Scanner(System.in);
-            System.out.println(player.getPlayerName() + " Enter an H for horizontal alignment or a V for vertical alignment of your battleship...\n");
+            main.printMessage(player.getPlayerName() + " Enter an H for horizontal alignment or a V for vertical alignment of your battleship...\n\n");
             alignment = scan.next().charAt(0); 
             
             //checking input
             if(!((alignment == 'H') || (alignment == 'h') || (alignment == 'V') || (alignment == 'v'))){
-                System.out.println(player.getPlayerName() + " You must enter a single character H or V. Restart the process...\n");
+                main.printMessage(player.getPlayerName() + " You must enter a single character H or V. Restart the process...\n\n");
                 playerShipCoordinates(player);
             }
         }catch(Exception e){
-            System.out.println(player.getPlayerName() + " You must enter a single character H or V. Restart the process...\n");
+            main.printMessage(player.getPlayerName() + " You must enter a single character H or V. Restart the process...\n\n");
             playerShipCoordinates(player);
         }
         
@@ -128,7 +129,7 @@ public class PlayBattleShip {
     }
     
     //call method to postion ships on the grid
-    public void setPlayerShips(Player player, int row, int col, char layout) {
+    public void setPlayerShips(Player player, int row, int col, char layout) throws InterruptedException, ClassNotFoundException {
         if(layout == 'V' || layout == 'v'){
             this.getShip().placeWarShipVertical(playerTracker, player, row, col);
         }else{
@@ -146,11 +147,11 @@ public class PlayBattleShip {
         Player playerOne = play.createPlayers();
         Player playerTwo = play.createPlayers();
         
-        play.main.printMessage("One moment while we set things up...\n");
+        play.main.printMessage("One moment while we set things up...\n\n");
         
         //introducing players to their grid icons
-        System.out.println(playerOne.getPlayerName() + " your icon is " + playerOne.getPl());
-        System.out.println(playerTwo.getPlayerName() + " your icon is " + playerTwo.getPl());
+        play.main.printMessage(playerOne.getPlayerName() + " your icon is " + playerOne.getPl() + "\n");
+        play.main.printMessage(playerTwo.getPlayerName() + " your icon is " + playerTwo.getPl() + "\n\n");
         
         String playing = "";
         
@@ -164,45 +165,54 @@ public class PlayBattleShip {
                 play.playerShipCoordinates(playerOne);
                 play.playerShipCoordinates(playerTwo);
                 
+                play.getGameGrid().displayGrid(playerOne.getGameGrid());
+                play.main.printMessage(playerOne.getPlayerName() + "'s war grid...\n\n");
+                Thread.sleep(3000);
                 
-                play.getGameGrid().displayGrid(play.getPlayerTracker());
+                play.getGameGrid().displayGrid(playerTwo.getGameGrid());
+                play.main.printMessage(playerTwo.getPlayerName() + "'s war grid...\n\n");
+                Thread.sleep(3000);
                 
-                play.getBattle().battleRules();
+                // play.getBattle().battleRules();
                 
                 do{
                     Scanner scan = new Scanner(System.in);
         
                     try{
-                        System.out.println(playerOne.getPlayerName() + " enter a row coordinate from 1 up to 15...\n");
+                        play.main.printMessage(playerOne.getPlayerName() + " enter a row coordinate from 1 up to 15...\n");
                         int row = scan.nextInt();
-                        System.out.println(playerOne.getPlayerName() + " enter a col coordinate from 1 up to 15...\n");
+                        play.main.printMessage(playerOne.getPlayerName() + " enter a col coordinate from 1 up to 15...\n");
                         int col = scan.nextInt();
                         play.getBattle().fight(play.getPlayerTracker(), row, col, playerOne);
-                        System.out.println(playerTwo.getPlayerName() + " enter a row coordinate from 1 up to 15...\n");
+                        play.main.printMessage(playerTwo.getPlayerName() + " enter a row coordinate from 1 up to 15...\n");
                         row = scan.nextInt();
-                        System.out.println(playerOne.getPlayerName() + " enter a col coordinate from 1 up to 15...\n");
+                        play.main.printMessage(playerOne.getPlayerName() + " enter a col coordinate from 1 up to 15...\n");
                         col = scan.nextInt();
                         play.getBattle().fight(play.getPlayerTracker(), row, col, playerTwo);
                     }catch(Exception e){
-                        System.out.println("Oops. You've entered an invalid coordinate. Loose a turn...");
+                        play.main.printMessage("Oops. You've entered an invalid coordinate. Loose a turn...\n\n");
                     }
                 }while((playerOne.getHits() < 1) || (playerTwo.getHits() < 1));
         
-                System.out.println("Seems you have knocked another ship out of the sea...Congratulations...\n");
+                play.main.printMessage("Seems you have knocked another ship out of the sea...Congratulations...\n\n");
+                
+                play.main.printMessage("Here are the postions of the war ships in the previous battle...");
+                play.getGameGrid().displayGrid(play.getPlayerTracker());
+                
             }while(playerOne.getHits() < 2 || playerTwo.getHits() < 2);
             
             String winner = (playerOne.getHits() > 2) ? playerOne.getPlayerName() : playerTwo.getPlayerName();
             
-            System.out.println(winner + " you are the king of the sea...Nice going hause...");
+            play.main.printMessage(winner + " you are the king of the sea...Nice going hause...\n\n");
             
             Scanner scan = new Scanner(System.in);
             
-            System.out.println("Would you like to continue playing?\n"+
+            play.main.printMessage("Would you like to continue playing?\n"+
                                 "Enter \"Y\" for yes and any key for no...\n");
             try{
                 playing = scan.nextLine();
             }catch(Exception e){
-                System.out.println("Invalid");
+                play.main.printMessage("Invalid\n\n");
             }
         }while(playing.equalsIgnoreCase("Y"));
         

@@ -4,18 +4,18 @@ public class GunBattle {
     
     private boolean hasPassed;
     
-    public void battleRules() {
+    public void battleRules() throws InterruptedException, ClassNotFoundException {
         
         if(!hasPassed){
-            System.out.println("The rules of engagement are simple. Get three hits on the opponent before they get three hits\n"+
+            new Main().printMessage("The rules of engagement are simple. Get three hits on the opponent before they get three hits\n"+
                 "on your ships and win the game. After each hit, each opponent will set of a new ship position. Sink the\n"+
-                "opponent before they sink you. Good luck...\n");
+                "opponent before they sink you. Good luck...\n\n");
         }
         
         hasPassed = true;
     }
     
-    public void fight(String[][] underGrid, int row, int col, Player player){
+    public void fight(String[][] underGrid, int row, int col, Player player) throws InterruptedException, ClassNotFoundException {
         
         row--;
         col--;
@@ -24,16 +24,16 @@ public class GunBattle {
             underGrid[row][col] = "X";
             player.getGameGrid()[row][col] = "X";
             new BattleGrid().displayGrid(player.getGameGrid());
-            System.out.println("Direct Hit!\n");
+            new Main().printMessage("Direct Hit!\n\n");
             player.setHits(player.getHits() + 1);
             if(player.getHits() > 2){
-                System.out.println("Congratulations " + player.getPlayerName() + ", you sank your opponent's battleship!!!\n");
+                new Main().printMessage("Congratulations " + player.getPlayerName() + ", you sank your opponent's battleship!!!\n\n");
             }
         }else{
             underGrid[row][col] = "~";
             player.getGameGrid()[row][col] = "~";
             new BattleGrid().displayGrid(player.getGameGrid());
-            System.out.print("Missed\n");
+            new Main().printMessage("Missed\n\n");
         }
        
     }
