@@ -1,22 +1,26 @@
 import java.util.*;
+import java.util.stream.*;
 
 public class HangManVersion2 {
-    
+
+    //holds the lines (_) and correct guesses
+    private static String[] arr;
+
     //holds a list of random words
     private static ArrayList<String> words;
-    
+
     //holds correct guessus
     private static ArrayList<String> guesses;
-    
+
     //holds incorrect guesses
     private static ArrayList<String> incorrectGuesses;
-    
+
     //keeps count of bad guesses
     private static int count = 9;
-    
+
     //2D array for hangman
     private static String[] str = new String[9];
-    
+
     //used to determine if a message has been displayed if false, the message is displayed
     private static boolean hasPassed;
 
@@ -25,7 +29,7 @@ public class HangManVersion2 {
 
         Thread.sleep(50);
     }
-    
+
     //fill ArrayList words with a list of words
     public static void fillArray() {
 
@@ -82,141 +86,141 @@ public class HangManVersion2 {
     public static int randomWord(){
         return new Random().nextInt(words.size());
     }
-    
+
     //below are stickman positions
     public static void hanger(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void head(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArm1(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /        |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /        |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArm2(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /  \\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /  \\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArmsChess(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArmsChessLeg1(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  |       |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  |       |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  |       |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  |       |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArmsChessLeg2(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void headArmsChessLegsFoot1(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /        |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /        |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
 
     public static void hangMan(String[] stickManArr){
         String stickMan =
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /  \\     |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
-        System.out.println(stickMan);
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ________\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ()      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /##\\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ##      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ||      |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t /  \\     |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t          |\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -----------------\n";
+        stickMan.chars().mapToObj(s -> (char)s).forEach(System.out::print);
     }
-    
+
     public static void clear(){
 
         for(int i = 0; i < 100; i++){
             System.out.println();
         }
     }
-    
+
     //gets the hangman position
     public static void getHangMan(int count) throws InterruptedException, ClassNotFoundException {
         switch (count){
@@ -261,22 +265,20 @@ public class HangManVersion2 {
                 main(new String[0]);
         }
     }
-    
+
     //hangman guessing, winning, lossing, storing correct / incorrect guess logic for the game
-    public static void playHangMan() throws InterruptedException, ClassNotFoundException {
+    public static void playHangMan(String str) throws InterruptedException, ClassNotFoundException {
 
-        words = new ArrayList<>();
-        guesses = new ArrayList<>();
-        incorrectGuesses = new ArrayList<>();
-        // theWord = new ArrayList<>();
-
-        fillArray();
-
-        String str = words.get(randomWord());
+        if(str.equals("")){
+            words = new ArrayList<>();
+            guesses = new ArrayList<>();
+            incorrectGuesses = new ArrayList<>();
+            fillArray();
+            str = words.get(randomWord());
+            arr = new String[str.length()];
+        }
 
         Scanner scan = new Scanner(System.in);
-
-        String[] arr = new String[str.length()];
 
         int badGuess = str.length();
         int goodGuess = 0;
@@ -287,16 +289,17 @@ public class HangManVersion2 {
         System.out.println();
 
         if(!(arr[0] == null)){
-            System.out.println(Arrays.toString(arr));
+            Stream<String> stream = Arrays.stream(arr);
+            stream.forEach(i -> System.out.print(i + " "));
         }
-        
+
         String guess = "";
-        
+
         try{
             guess = Character.toString(scan.next().charAt(0));
         }catch(Exception e){
             printMessage("Must enter a single letter. Try again...\n");
-            playHangMan();
+            playHangMan(str);
         }
 
         if(!(guesses.contains(guess) || incorrectGuesses.contains(guess))){
@@ -340,7 +343,7 @@ public class HangManVersion2 {
                     }else{
                         arr[4] = "_";
                     }
-                    
+
                     if(str.length() >= 6){
                         if(Character.toString(str.charAt(5)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -349,7 +352,7 @@ public class HangManVersion2 {
                             arr[5] = "_";
                         }
                     }
-                    
+
                     if(str.length() >= 7){
                         if(Character.toString(str.charAt(6)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -358,7 +361,7 @@ public class HangManVersion2 {
                             arr[6] = "_";
                         }
                     }
-                    
+
                     if(str.length() >= 8){
                         if(Character.toString(str.charAt(7)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -367,7 +370,7 @@ public class HangManVersion2 {
                             arr[7] = "_";
                         }
                     }
-                    
+
                     if(str.length() >= 9){
                         if(Character.toString(str.charAt(8)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -376,7 +379,7 @@ public class HangManVersion2 {
                             arr[8] = "_";
                         }
                     }
-                    
+
                     if(str.length() >= 10){
                         if(Character.toString(str.charAt(9)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -385,7 +388,7 @@ public class HangManVersion2 {
                             arr[9] = "_";
                         }
                     }
-                    
+
                     if(str.length() >= 11){
                         if(Character.toString(str.charAt(10)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -419,42 +422,42 @@ public class HangManVersion2 {
                         guesses.add(guess);
                         arr[4] = guess;
                     }
-                    
+
                     if(str.length() >= 6){
                         if(Character.toString(str.charAt(5)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
                             arr[5] = guess;
                         }
                     }
-                    
+
                     if(str.length() >= 7){
                         if(Character.toString(str.charAt(6)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
                             arr[6] = guess;
                         }
                     }
-                    
+
                     if(str.length() >= 8){
                         if(Character.toString(str.charAt(7)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
                             arr[7] = guess;
                         }
                     }
-                    
+
                     if(str.length() >= 9){
                         if(Character.toString(str.charAt(8)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
                             arr[8] = guess;
                         }
                     }
-                    
+
                     if(str.length() >= 10){
                         if(Character.toString(str.charAt(9)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
                             arr[9] = guess;
                         }
                     }
-                    
+
                     if(str.length() >= 11){
                         if(Character.toString(str.charAt(10)).equalsIgnoreCase(guess)){
                             guesses.add(guess);
@@ -468,21 +471,30 @@ public class HangManVersion2 {
         }else{
             printMessage("You have already entered this letter before.\n");
         }
-        
+
+        Stream<String> stream = Arrays.stream(arr);
+        stream.forEach(i -> System.out.print(i + " "));
+
         if(count == 0 ){
-            printMessage("Sorry, but you are out of guesses.\n");
+            printMessage("\nSorry, but you are out of guesses.\n");
             printMessage("The word was " + str.toUpperCase() + "\n\n");
-        }else if(goodGuess == str.length()){
-            System.out.println(Arrays.toString(arr));
-            printMessage("Congratulations, you win.\n\n");
+        }
+
+        Object[] arr1 = Arrays.stream(arr).reduce("", (s1, s2) -> s1 + s2).chars().mapToObj(s ->(char)s).toArray();
+        Object[] arr2 = str.chars().mapToObj(s -> (char)s).toArray();
+
+        if(Arrays.equals(arr1, arr2)){
+           printMessage("\nCongratulations, you win.\n\n");
             main(new String[0]);
         }
-        
-        if(goodGuess < str.length() || count > 0){
-            playHangMan();
+
+        if(goodGuess < str.length() - 1 || count > 0){
+            playHangMan(str);
         }else{
             main(new String[0]);
         }
+
+
     }
 
     public static void main(String[] args) throws InterruptedException, ClassNotFoundException {
@@ -497,7 +509,7 @@ public class HangManVersion2 {
         do{
             Scanner scanner = new Scanner(System.in);
 
-            System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
             printMessage("Would you like to play HANGMAN?");
             System.out.println();
             System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
@@ -509,14 +521,14 @@ public class HangManVersion2 {
                 response = scanner.nextLine();
             }catch(Exception e){
                 printMessage("Must enter a single letter. Try again...\n");
-                playHangMan();
+                playHangMan("");
             }
-            
+
             if(response.equalsIgnoreCase("N")){
                 printMessage("Thanks for playing. We'll see you later.");
                 System.exit(0);
             }else {
-                playHangMan();
+                playHangMan("");
             }
         }while (!response.equalsIgnoreCase("N"));
     }
